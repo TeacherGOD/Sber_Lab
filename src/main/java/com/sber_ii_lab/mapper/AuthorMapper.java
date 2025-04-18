@@ -5,7 +5,6 @@ import com.sber_ii_lab.entity.Author;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-
 public interface AuthorMapper {
 
     AuthorDto toDto(Author author);
