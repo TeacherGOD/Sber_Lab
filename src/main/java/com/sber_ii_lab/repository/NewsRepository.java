@@ -31,4 +31,6 @@ public interface NewsRepository extends JpaRepository<News, Long>, JpaSpecificat
 
     @Query("SELECT COUNT(n) FROM News n WHERE n.imageUrl = :fileName")
     long countByImageUrl(@Param("fileName") String fileName);
+
+
 }

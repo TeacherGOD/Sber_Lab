@@ -18,15 +18,22 @@ public class UserSecurity {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
 
-        if (principal instanceof MyUserDetails) {
-            MyUserDetails userDetails = (MyUserDetails) principal;
+        if (principal instanceof MyUserDetails userDetails) {
             return userDetails.getId().equals(userId);
         }
 
+        throw new IllegalStateException("Unexpected principal type: " + principal.getClass());
+    }
+
         // Если principal - строка (например, логин), проверяем через репозиторий
-        String username = principal.toString();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return user.getId().equals(userId);
+//        String username = principal.toString();
+//        User user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//        return user.getId().equals(userId);
+//    }
+    public boolean isAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 }

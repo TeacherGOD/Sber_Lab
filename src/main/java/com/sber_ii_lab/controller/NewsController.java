@@ -8,6 +8,7 @@ import com.sber_ii_lab.service.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -73,6 +74,7 @@ public class NewsController {
 
     // Создать новость
     //todo права
+    @SecurityRequirement(name = "JWT")
     @Operation(summary = "Создать новость", description = "Создание новости с изображением")
     @ApiResponse(responseCode = "201", description = "Новость успешно создана")
     @ApiResponse(responseCode = "400", description = "Некорректные данные")
@@ -87,6 +89,7 @@ public class NewsController {
 
     // Удалить новость
     //todo права
+    @SecurityRequirement(name = "JWT")
     @Operation(summary = "Удалить новость", description = "Удаление новости по ID")
     @ApiResponse(responseCode = "204", description = "Новость удалена")
     @ApiResponse(responseCode = "404", description = "Новость не найдена")
@@ -101,6 +104,7 @@ public class NewsController {
 
     // Обновить новость (опционально)
     //todo права
+    @SecurityRequirement(name = "JWT")
     @Operation(summary = "Обновить новость", description = "Обновление данных новости")
     @ApiResponse(responseCode = "200", description = "Новость обновлена")
     @ApiResponse(responseCode = "404", description = "Новость не найдена")

@@ -47,7 +47,6 @@ public class NewsService {
     public NewsDto createNews(NewsRequest request) {
         String imageUrl = fileStorageService.storeFile(request.getImage());
 
-
         News news = newsMapper.toEntity(request);
         news.setImageUrl(imageUrl);
 

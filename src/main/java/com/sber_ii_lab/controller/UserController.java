@@ -1,13 +1,13 @@
 package com.sber_ii_lab.controller;
 
 import com.sber_ii_lab.dto.request.PasswordUpdateDto;
-import com.sber_ii_lab.dto.request.UserCreateDto;
 import com.sber_ii_lab.dto.response.UserResponseDto;
 import com.sber_ii_lab.enums.Role;
 import com.sber_ii_lab.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,22 +22,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @Operation(
-            summary = "Создать пользователя",
-            description = "Позволяет администратору создать нового пользователя"
-    )
-    @ApiResponse(responseCode = "201", description = "Пользователь успешно создан")
-    @ApiResponse(responseCode = "400", description = "Невалидные данные")
-    @ApiResponse(responseCode = "409", description = "Пользователь с таким именем уже существует")
-    @ApiResponse(responseCode = "403", description = "Доступ запрещен")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public UserResponseDto createUser(
-            @Valid @ModelAttribute  UserCreateDto userCreateDto
-    ) {
-        return userService.createUser(userCreateDto);
-    }
-
     // Смена пароля
+    @SecurityRequirement(name = "JWT")
     @Operation(
             summary = "Смена пароля",
             description = "Позволяет пользователю или администратору изменить пароль"
@@ -56,6 +42,7 @@ public class UserController {
     }
 
     // Смена пароля администратором (без старого пароля)
+    @SecurityRequirement(name = "JWT")
     @Operation(
             summary = "Смена пароля администратором",
             description = "Позволяет администратору изменить пароль любого пользователя без проверки старого пароля"
@@ -71,6 +58,8 @@ public class UserController {
         userService.adminUpdatePassword(userId, newPassword);
     }
 
+    // Блокировка/разблокировка (только для админа)
+    @SecurityRequirement(name = "JWT")
     @Operation(
             summary = "Блокировка/разблокировка",
             description = "Позволяет администратору заблокировать или разблокировать пользователя"
@@ -88,9 +77,10 @@ public class UserController {
     ) {
         userService.toggleUserStatus(userId, isEnabled);
     }
-    // Блокировка/разблокировка (только для админа)
+
 
     //выдать роль
+    @SecurityRequirement(name = "JWT")
     @Operation(
             summary = "Добавить роль у пользователя",
             description = "Позволяет администратору добавить роль пользователю"
@@ -110,6 +100,7 @@ public class UserController {
     }
 
     //забрать роль
+    @SecurityRequirement(name = "JWT")
     @Operation(
             summary = "Удалить роль пользователю",
             description = "Позволяет администратору удалить роль у пользователя"
