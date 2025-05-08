@@ -127,8 +127,8 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Успешное получение списка")
     @GetMapping
     public Page<UserResponseDto> getAllUsers(
-            @Parameter(description = "Номер страницы (начиная с 0)", example = "0")
-            @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Номер страницы (начиная с 1)", example = "1")
+            @RequestParam(defaultValue = "1") int page,
 
             @Parameter(description = "Размер страницы", example = "10")
             @RequestParam(defaultValue = "10") int size

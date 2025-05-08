@@ -31,10 +31,28 @@ public class TagController {
             summary = "Get all tags",
             description = "Returns paginated list of all tags"
     )
+    @Parameter(
+            name = "page",
+            description = "Номер страницы (начиная с 1)",
+            example = "1",
+            schema = @Schema(type = "integer", defaultValue = "1")
+    )
+    @Parameter(
+            name = "size",
+            description = "Количество элементов на странице",
+            example = "20",
+            schema = @Schema(type = "integer", defaultValue = "20")
+    )
+    @Parameter(
+            name = "sort",
+            description = "Поле для сортировки (формат: поле,напр.asc)",
+            example = "name,asc",
+            schema = @Schema(type = "string")
+    )
     @ApiResponse(responseCode = "200", description = "Successfully retrieved tags")
     @ApiResponse(responseCode = "400", description = "Invalid pagination parameters")
     @GetMapping
-    public ResponseEntity<Page<TagDto>> getAllTags(Pageable pageable) {
+    public ResponseEntity<Page<TagDto>> getAllTags(@Parameter(hidden = true) Pageable pageable) {
         Page<Tag> tags = tagService.findAll(pageable);
         return ResponseEntity.ok(tags.map(tagMapper::toDto));
     }
