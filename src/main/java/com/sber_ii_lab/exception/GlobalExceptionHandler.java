@@ -34,7 +34,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleConflictException(ConflictException ex){ return new ErrorResponse(ex.getMessage());}
+    public ErrorResponse handleConflictException(ConflictException ex){
+        return new ErrorResponse(ex.getMessage());
+    }
 
 
     @ExceptionHandler(Exception.class)

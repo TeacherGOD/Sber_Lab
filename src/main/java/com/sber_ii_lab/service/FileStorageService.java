@@ -4,6 +4,7 @@ import com.sber_ii_lab.config.FileValidator;
 import com.sber_ii_lab.exception.DirectoryCreationException;
 import com.sber_ii_lab.exception.FileDeleteException;
 import com.sber_ii_lab.exception.FileStorageException;
+import com.sber_ii_lab.repository.FileReferenceRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class FileStorageService {
     private final FileValidator fileValidator;
     private final NewsRepository newsRepository;
     private final ScheduledExecutorService taskScheduler;
+    private final FileReferenceRepository fileReferenceRepository;
 
     @PostConstruct
     public void init() {
@@ -68,8 +70,8 @@ public class FileStorageService {
     }
 
     public void deleteFileIfUnused(String fileName) {
-        long count = newsRepository.countByImageUrl(fileName);
-        if (count == 0) {
+        long usageCount = fileReferenceRepository.countFileReferences(fileName);
+        if (usageCount == 0) {
             deleteFile(fileName);
         }
     }
@@ -83,19 +85,12 @@ public class FileStorageService {
         }
     }
 
-    public void cleanupUnusedFiles(){
-        log.info("Starting files cleanup...");
-        try{
+    public void cleanupUnusedFiles() {
+        try {
             List<String> allFiles = listAllFiles();
-            allFiles.forEach(file -> {
-                if (newsRepository.countByImageUrl(file) == 0) {
-                    deleteFile(file);
-                }
-            });
-            log.info("Tags files completed");
-        }
-        catch (IOException e){
-            throw new FileStorageException("Ошибка при отчистке файлов");
+            allFiles.forEach(this::deleteFileIfUnused);
+        } catch (IOException e) {
+            throw new FileStorageException("Ошибка при очистке файлов");
         }
     }
 

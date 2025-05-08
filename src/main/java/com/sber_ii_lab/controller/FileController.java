@@ -20,17 +20,17 @@ public class FileController {
     private final FileStorageService fileStorageService;
 
 
-    @Operation(summary = "Загрузка файла", description = "Загружает файл на сервер")
-    @ApiResponse(responseCode = "200", description = "Файл успешно загружен")
-    @ApiResponse(responseCode = "400", description = "Некорректный запрос")
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadFile(
-            @Parameter(description = "Файл для загрузки", required = true,
-                    schema = @Schema(type = "string", format = "binary")
-            )
-            @RequestPart("file") MultipartFile file
-    ) {
-        String fileName = fileStorageService.storeFile(file);
-        return ResponseEntity.ok("Файл загружен: " + fileName);
-    }
+//    @Operation(summary = "Загрузка файла", description = "Загружает файл на сервер")
+//    @ApiResponse(responseCode = "200", description = "Файл успешно загружен")
+//    @ApiResponse(responseCode = "400", description = "Некорректный запрос")
+//    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<String> uploadFile(
+//            @Parameter(description = "Файл для загрузки", required = true,
+//                    schema = @Schema(type = "string", format = "binary")
+//            )
+//            @RequestPart("file") MultipartFile file
+//    ) {
+//        String fileName = fileStorageService.storeFile(file);
+//        return ResponseEntity.ok("Файл загружен: " + fileName);
+//    }
 }

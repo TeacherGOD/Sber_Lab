@@ -1,6 +1,7 @@
 package com.sber_ii_lab.entity;
 
 import com.sber_ii_lab.enums.NewsType;
+import com.sber_ii_lab.interfaces.FileReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,6 +41,7 @@ public class News {
     @Enumerated(EnumType.STRING)
     private NewsType newsType;
 
+    @FileReference
     @Column(name = "image_url")
     private String imageUrl;
 
@@ -69,4 +71,6 @@ public class News {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+
 }

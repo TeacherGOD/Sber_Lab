@@ -50,4 +50,8 @@ public class NewsSpecifications {
                 .and(hasNewsType(newsType))
                 .and(hasTags(tags));
     }
+
+    private NewsSpecifications() {
+        throw new IllegalArgumentException("util class");
+    }
 }
