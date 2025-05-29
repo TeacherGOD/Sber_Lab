@@ -6,12 +6,14 @@ import com.sber_ii_lab.enums.Role;
 import com.sber_ii_lab.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -124,15 +126,27 @@ public class UserController {
             summary = "Получить список пользователей",
             description = "Возвращает постраничный список всех пользователей"
     )
+    @Parameter(
+            name = "page",
+            description = "Номер страницы (начиная с 1)",
+            example = "1",
+            schema = @Schema(type = "integer", defaultValue = "1")
+    )
+    @Parameter(
+            name = "size",
+            description = "Количество элементов на странице",
+            example = "20",
+            schema = @Schema(type = "integer", defaultValue = "20")
+    )
+    @Parameter(
+            name = "sort",
+            description = "Поле для сортировки (формат: поле,напр.asc)",
+            example = "username,asc",
+            schema = @Schema(type = "string")
+    )
     @ApiResponse(responseCode = "200", description = "Успешное получение списка")
     @GetMapping
-    public Page<UserResponseDto> getAllUsers(
-            @Parameter(description = "Номер страницы (начиная с 1)", example = "1")
-            @RequestParam(defaultValue = "1") int page,
-
-            @Parameter(description = "Размер страницы", example = "10")
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        return userService.getAllUsers(page, size);
+    public Page<UserResponseDto> getAllUsers(@Parameter(hidden = true) Pageable pageable) {
+        return userService.getAllUsers(pageable);
     }
 }

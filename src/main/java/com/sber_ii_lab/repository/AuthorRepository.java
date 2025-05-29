@@ -13,11 +13,13 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     Optional<Author> findByName(String name);
 
     @Query(value = """
-        SELECT a.* FROM authors a
-        WHERE NOT EXISTS (
-            SELECT 1 FROM news_authors na 
-            WHERE na.author_id = a.id
-        )
-        """, nativeQuery = true)
+    SELECT a.* FROM authors a
+    WHERE NOT EXISTS (
+        SELECT 1 FROM news_authors na WHERE na.author_id = a.id
+    )
+    AND NOT EXISTS (
+        SELECT 1 FROM project_authors pa WHERE pa.author_id = a.id
+    )
+    """, nativeQuery = true)
     List<Author> findUnusedAuthors();
 }

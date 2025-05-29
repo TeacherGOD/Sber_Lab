@@ -21,6 +21,6 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("API сбер-лаборатории")
                         .version("1.0")
-                        .description("API для управления новостями и загрузки файлов (пока что)"));
+                        .description("API для SberLab"));
     }
 }

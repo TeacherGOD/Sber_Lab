@@ -13,7 +13,6 @@ import com.sber_ii_lab.repository.UserRepository;
 import com.sber_ii_lab.security.service.UserSecurity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.session.SessionInformation;
@@ -38,8 +37,7 @@ public class UserService {
     private final SessionRegistry sessionRegistry;
 
 
-    public Page<UserResponseDto> getAllUsers(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<UserResponseDto> getAllUsers(Pageable pageable) {
         Page<User> usersPage = userRepository.findAll(pageable);
         return usersPage.map(userMapper::toResponseDto);
     }

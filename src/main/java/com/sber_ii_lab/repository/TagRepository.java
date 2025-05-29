@@ -15,12 +15,14 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     Optional<Tag> findByNameIgnoreCase(String name);
 
     @Query(value = """
-        SELECT t.* FROM tags t
-        WHERE NOT EXISTS (
-            SELECT 1 FROM news_tags nt 
-            WHERE nt.tag_id = t.id
-        )
-        """, nativeQuery = true)
+    SELECT t.* FROM tags t
+    WHERE NOT EXISTS (
+        SELECT 1 FROM news_tags nt WHERE nt.tag_id = t.id
+    )
+    AND NOT EXISTS (
+        SELECT 1 FROM project_tags pt WHERE pt.tag_id = t.id
+    )
+    """, nativeQuery = true)
     List<Tag> findUnusedTags();
 
 }
