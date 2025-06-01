@@ -11,5 +11,6 @@ public interface FeedbackMapper {
     FeedbackDto toDto(Feedback feedback);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     Feedback toEntity(FeedbackRequest request);
 }

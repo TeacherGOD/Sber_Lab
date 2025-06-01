@@ -11,10 +11,10 @@ public class FeedbackDto {
     @Schema(description = "ID отзыва", example = "10")
     private Long id;
 
-    @Schema(description = "Оценка отзыва от 1 до 5", example = "5")
-    private int rating;
+    @Schema(description = "Email автора отзыва", example = "user@example.com")
+    private String email;
 
-    @Schema(description = "Текст отзыва", example = "Очень хороший опыт, всем советую!")
+    @Schema(description = "Текст отзыва", example = "Я бы хотел у вас работать.")
     private String comment;
 
     @Schema(description = "Дата создания", example = "2024-05-22T13:45:00")

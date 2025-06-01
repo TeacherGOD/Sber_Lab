@@ -24,7 +24,7 @@ public class FeedbackService {
 
     @Transactional
     public FeedbackDto createFeedback(FeedbackRequest request) {
-        log.info("Создание нового отзыва с рейтингом: {}", request.getRating());
+        log.info("Создание нового отзыва от пользователя с почтой: {}", request.getEmail());
 
         Feedback feedback = feedbackMapper.toEntity(request);
 
